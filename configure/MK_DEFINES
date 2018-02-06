@@ -2,7 +2,7 @@
 define git_update =
 @git submodule deinit -f $@/
 git submodule deinit -f $@/
-sed -i '/submodule/,9157d'  $(TOP)/.git/config
+sed -i '/submodule/,18989d'  $(TOP)/.git/config
 rm -rf $(TOP)/.git/modules/$@
 git submodule init $@/
 git submodule update --init --recursive $@/.

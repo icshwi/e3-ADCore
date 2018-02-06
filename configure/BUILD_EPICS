@@ -8,7 +8,11 @@
 
 epics:
 	$(QUIET)echo "EPICS_BASE=$(COMMUNITY_EPICS_BASE)"  > $(TOP)/$(EPICS_MODULE_SRC_PATH)/configure/RELEASE
-	$(QUIET)echo "INSTALL_LOCATION=$(M_IOCSTATS)" > $(TOP)/$(EPICS_MODULE_SRC_PATH)/configure/CONFIG_SITE	
+	$(QUIET)echo "INSTALL_LOCATION=$(M_ADCORE)" > $(TOP)/$(EPICS_MODULE_SRC_PATH)/configure/CONFIG_SITE
+	$(QUIET)echo "XML2_INCLUDE=/usr/include/libxml2/" >> $(TOP)/$(EPICS_MODULE_SRC_PATH)/configure/CONFIG_SITE
+	$(QUIET)echo "USR_INCLUDES=-I$(M_ASYN)/include/" >> $(TOP)/$(EPICS_MODULE_SRC_PATH)/configure/CONFIG_SITE
+	$(QUIET)echo "asyn_DIR=$(M_ASYN)/lib/linux-x86_64/" >> $(TOP)/$(EPICS_MODULE_SRC_PATH)/configure/CONFIG_SITE
+	
 	sudo -E bash -c "$(MAKE) -C $(EPICS_MODULE_SRC_PATH)"
 
 epics-clean:
