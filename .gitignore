@@ -11,5 +11,5 @@ core.*
 .project
 .cproject
 .settings
-.tmp
+*.tmp
 
