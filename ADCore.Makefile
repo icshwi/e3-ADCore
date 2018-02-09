@@ -37,13 +37,13 @@ INCLUDE_DIR		= $(ADCORE)/../include
 TEMPLATE_DIR	= $(ADCORE)/Db
 
 USR_INCLUDES += -I/usr/include/libxml2/
-USR_INCLUDES += -I$(EPICS_MODULES)/asyn/4.32.0/R3.15.5/include/
+USR_INCLUDES += -I$(ASYN_DEP_PATH)/R$(DEFAULT_EPICS_VERSIONS)/include/
 USR_INCLDUES += -I$(where_am_I)/$(AD_DIR)
 USR_INCLDUES += -I$(where_am_I)/$(NDPLUGIN_DIR)
 USR_INCLUDES += -I$(where_am_I)/$(INCLUDE_DIR)
 
-USR_LDFLAGS += -L $(EPICS_MODULES)/asyn/4.32.0/R3.15.5/lib/linux-x86_64/
-USR_LDFLAGS += -Wl,-rpath=$(EPICS_MODULES)/asyn/4.32.0/R3.15.5/lib/linux-x86_64/
+USR_LDFLAGS += -L $(ASYN_DEP_PATH)/R$(DEFAULT_EPICS_VERSIONS)/lib/linux-x86_64/
+USR_LDFLAGS += -Wl,-rpath=$(ASYN_DEP_PATH)/R$(DEFAULT_EPICS_VERSIONS)/lib/linux-x86_64/
 
 USR_LIBS += asyn
 USR_LIBS += xml2
@@ -138,6 +138,7 @@ DBDS += $(NDPLUGIN_DIR)/NDFileNull.dbd
 HEADERS += $(NDPLUGIN_DIR)/NDFileNull.h
 SOURCES += $(NDPLUGIN_DIR)/NDFileNull.cpp
 
+#This should be be enabled (GraphicsMagick is not supported yet)!!
 ifeq ($(WITH_GRAPHICSMAGICK),YES)
   ifeq ($(GRAPHICSMAGICK_PREFIX_SYMBOLS),YES)
     USR_CXXFLAGS += -DPREFIX_MAGICK_SYMBOLS
