@@ -43,17 +43,7 @@ Some databases depend from record type defined in other modules:
 
 | External module | Db
 |-----------------|--------------|
-| busy | ADBase.template 
-         NDCircularBuff.template
-         NDFile.template
-         NDFileHDF5.template
-         NDFileNetCDF.template
-         NDFileNexus.template
-         NDFileTIFF.template
-         NDFileJPEG.template
-         NDPosPlugin.template
-         NDProcess.template
-         NDTimeSeries.template |
+| busy | ADBase.template NDCircularBuff.template NDFile.template NDFileHDF5.template NDFileNetCDF.template NDFileNexus.template NDFileTIFF.template NDFileJPEG.template NDPosPlugin.template NDProcess.template NDTimeSeries.template |
 | calc | NDStats.template |
 
 If you need one of these previous databases, you need to __explicitely require__ them on your startup scipt  
