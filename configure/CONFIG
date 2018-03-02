@@ -25,7 +25,6 @@ export WITH_TIFF   = YES
 export WITH_PVA    = NO
 
 #ASYN_DEP_VER = <X.Y.Z>
-
 ifdef ASYN_DEP_VER
 	#Take the specific version
 	ASYN_DEP_PATH = $(EPICS_MODULES)/asyn/$(ASYN_DEP_VER)
@@ -33,5 +32,4 @@ else
 	#Take the last numbered version
 	ASYN_DEP_PATH = $(lastword $(sort $(dir $(wildcard $(EPICS_MODULES)/asyn/*/))))
 endif
-
 export ASYN_DEP_PATH
