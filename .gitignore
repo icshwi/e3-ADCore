@@ -13,3 +13,11 @@ core.*
 .settings
 *.tmp
 
+
+*.local
+*~
+\#*
+*-dev
+.cvsignore
+*_old/
+.\#*
