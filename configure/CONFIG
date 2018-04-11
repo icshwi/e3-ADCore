@@ -15,21 +15,21 @@ export E3_ENV_NAME:=e3-env
 #export E3_ENV_NAME:=E3_ENV_CONF
 #export E3_ENV_TAG:=v0.1
 
-export WITH_HDF5   = YES
-export WITH_JPEG   = YES
-export WITH_NETCDF = YES
-export WITH_NEXUS  = YES
-export WITH_TIFF   = YES
+# export WITH_HDF5   = YES
+# export WITH_JPEG   = YES
+# export WITH_NETCDF = YES
+# export WITH_NEXUS  = YES
+# export WITH_TIFF   = YES
 
 #PVA Is not supported in e3 yet.
 export WITH_PVA    = NO
 
-#ASYN_DEP_VER = <X.Y.Z>
-ifdef ASYN_DEP_VER
-	#Take the specific version
-	ASYN_DEP_PATH = $(EPICS_MODULES)/asyn/$(ASYN_DEP_VER)
-else 
-	#Take the last numbered version
-	ASYN_DEP_PATH = $(lastword $(sort $(dir $(wildcard $(EPICS_MODULES)/asyn/*/))))
-endif
-export ASYN_DEP_PATH
+# #ASYN_DEP_VER = <X.Y.Z>
+# ifdef ASYN_DEP_VER
+# 	#Take the specific version
+# 	ASYN_DEP_PATH = $(EPICS_MODULES)/asyn/$(ASYN_DEP_VER)
+# else 
+# 	#Take the last numbered version
+# 	ASYN_DEP_PATH = $(lastword $(sort $(dir $(wildcard $(EPICS_MODULES)/asyn/*/))))
+# endif
+# export ASYN_DEP_PATH

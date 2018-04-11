@@ -29,286 +29,245 @@ where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 include $(REQUIRE_TOOLS)/driver.makefile
 
-ADCORE = ADApp
+ADCAPP = ADApp
 
-AD_DIR			= $(ADCORE)/ADSrc
-NDPLUGIN_DIR	= $(ADCORE)/pluginSrc
-INCLUDE_DIR		= $(ADCORE)/../include
-TEMPLATE_DIR	= $(ADCORE)/Db
+ADCORESRC:=$(ADCAPP)/ADSrc
+PLUGINSRC:=$(ADCAPP)/pluginSrc
+ADCOREDB:=$(ADCAPP)/Db
 
-USR_INCLUDES += -I/usr/include/libxml2/
-#USR_INCLUDES += -I$(ASYN_DEP_PATH)/R$(DEFAULT_EPICS_VERSIONS)/include/
-USR_INCLDUES += -I$(where_am_I)/$(AD_DIR)
-USR_INCLDUES += -I$(where_am_I)/$(NDPLUGIN_DIR)
-USR_INCLUDES += -I$(where_am_I)/$(INCLUDE_DIR)
 
-USR_LDFLAGS += -L $(ASYN_DEP_PATH)/R$(DEFAULT_EPICS_VERSIONS)/lib/linux-x86_64/
-USR_LDFLAGS += -Wl,-rpath=$(ASYN_DEP_PATH)/R$(DEFAULT_EPICS_VERSIONS)/lib/linux-x86_64/
 
-USR_LIBS += asyn
-USR_LIBS += xml2
+## We will use XML2 as the system lib, instead of ADSupport
+## Do we need to load libxml2 when we start iocsh?
 
-################################## Building NDPlugin ##################################
+USR_INCLUDES += -I/usr/include/libxml2
+LIB_SYS_LIBS += xml2	
 
+
+
+#DBDS         += NDPluginSupport.dbd
 # Persuade travis (ubuntu 12.04) to use HDF5 API V2 (1.8 rather than default 1.6)
 USR_CXXFLAGS_Linux += -DH5_NO_DEPRECATED_SYMBOLS -DH5Gopen_vers=2
 
-HEADERS += $(NDPLUGIN_DIR)/NDPluginDriver.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginDriver.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginAttribute.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginAttribute.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginAttribute.cpp
+HEADERS += $(PLUGINSRC)/NDPluginDriver.h
+SOURCES += $(PLUGINSRC)/NDPluginDriver.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginCircularBuff.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDArrayRing.h
-HEADERS += $(NDPLUGIN_DIR)/NDPluginCircularBuff.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginCircularBuff.cpp
-SOURCES += $(NDPLUGIN_DIR)/NDArrayRing.cpp
+DBDS    += $(PLUGINSRC)/NDPluginAttribute.dbd
+HEADERS += $(PLUGINSRC)/NDPluginAttribute.h
+SOURCES += $(PLUGINSRC)/NDPluginAttribute.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginColorConvert.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginColorConvert.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginColorConvert.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginFFT.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginFFT.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginFFT.cpp
-SOURCES += $(NDPLUGIN_DIR)/fft.c
+DBDS    += $(PLUGINSRC)/NDPluginCircularBuff.dbd
+HEADERS += $(PLUGINSRC)/NDArrayRing.h
+HEADERS += $(PLUGINSRC)/NDPluginCircularBuff.h
+SOURCES += $(PLUGINSRC)/NDPluginCircularBuff.cpp
+SOURCES += $(PLUGINSRC)/NDArrayRing.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginGather.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginGather.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginGather.cpp
+DBDS    += $(PLUGINSRC)/NDPluginColorConvert.dbd
+HEADERS += $(PLUGINSRC)/NDPluginColorConvert.h
+SOURCES += $(PLUGINSRC)/NDPluginColorConvert.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginOverlay.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginOverlay.h
-HEADERS += $(NDPLUGIN_DIR)/NDPluginOverlayTextFont.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginOverlay.cpp
-SOURCES += $(NDPLUGIN_DIR)/NDPluginOverlayTextFont.cpp
+DBDS    += $(PLUGINSRC)/NDPluginFFT.dbd
+HEADERS += $(PLUGINSRC)/NDPluginFFT.h
+SOURCES += $(PLUGINSRC)/NDPluginFFT.cpp
+SOURCES += $(PLUGINSRC)/fft.c
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginProcess.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginProcess.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginProcess.cpp
+DBDS    += $(PLUGINSRC)/NDPluginGather.dbd
+HEADERS += $(PLUGINSRC)/NDPluginGather.h
+SOURCES += $(PLUGINSRC)/NDPluginGather.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginROI.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginROI.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginROI.cpp
+DBDS    += $(PLUGINSRC)/NDPluginOverlay.dbd
+HEADERS += $(PLUGINSRC)/NDPluginOverlay.h
+HEADERS += $(PLUGINSRC)/NDPluginOverlayTextFont.h
+SOURCES += $(PLUGINSRC)/NDPluginOverlay.cpp
+SOURCES += $(PLUGINSRC)/NDPluginOverlayTextFont.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginROIStat.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginROIStat.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginROIStat.cpp
+DBDS    += $(PLUGINSRC)/NDPluginProcess.dbd
+HEADERS += $(PLUGINSRC)/NDPluginProcess.h
+SOURCES += $(PLUGINSRC)/NDPluginProcess.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginScatter.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginScatter.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginScatter.cpp
+DBDS    += $(PLUGINSRC)/NDPluginROI.dbd
+HEADERS += $(PLUGINSRC)/NDPluginROI.h
+SOURCES += $(PLUGINSRC)/NDPluginROI.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginStats.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginStats.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginStats.cpp
+DBDS    += $(PLUGINSRC)/NDPluginROIStat.dbd
+HEADERS += $(PLUGINSRC)/NDPluginROIStat.h
+SOURCES += $(PLUGINSRC)/NDPluginROIStat.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginStdArrays.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginStdArrays.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginStdArrays.cpp
+DBDS    += $(PLUGINSRC)/NDPluginScatter.dbd
+HEADERS += $(PLUGINSRC)/NDPluginScatter.h
+SOURCES += $(PLUGINSRC)/NDPluginScatter.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginTimeSeries.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginTimeSeries.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginTimeSeries.cpp
+DBDS    += $(PLUGINSRC)/NDPluginStats.dbd
+HEADERS += $(PLUGINSRC)/NDPluginStats.h
+SOURCES += $(PLUGINSRC)/NDPluginStats.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginTransform.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginTransform.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginTransform.cpp
+DBDS    += $(PLUGINSRC)/NDPluginStdArrays.dbd
+HEADERS += $(PLUGINSRC)/NDPluginStdArrays.h
+SOURCES += $(PLUGINSRC)/NDPluginStdArrays.cpp
 
-DBD_SRCS += $(NDPLUGIN_DIR)/NDPluginAttrPlot.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPluginAttrPlot.h
-HEADERS += $(NDPLUGIN_DIR)/CircularBuffer.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginAttrPlot.cpp
+DBDS    += $(PLUGINSRC)/NDPluginTimeSeries.dbd
+HEADERS += $(PLUGINSRC)/NDPluginTimeSeries.h
+SOURCES += $(PLUGINSRC)/NDPluginTimeSeries.cpp
 
-DBDS += $(NDPLUGIN_DIR)/NDPosPlugin.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDPosPlugin.h
-HEADERS += $(NDPLUGIN_DIR)/NDPosPluginFileReader.h
-SOURCES += $(NDPLUGIN_DIR)/NDPosPlugin.cpp 
-SOURCES += $(NDPLUGIN_DIR)/NDPosPluginFileReader.cpp
+DBDS    += $(PLUGINSRC)/NDPluginTransform.dbd
+HEADERS += $(PLUGINSRC)/NDPluginTransform.h
+SOURCES += $(PLUGINSRC)/NDPluginTransform.cpp
 
-HEADERS += $(NDPLUGIN_DIR)/NDPluginFile.h
-SOURCES += $(NDPLUGIN_DIR)/NDPluginFile.cpp
+DBDS    += $(PLUGINSRC)/NDPluginAttrPlot.dbd
+HEADERS += $(PLUGINSRC)/NDPluginAttrPlot.h
+HEADERS += $(PLUGINSRC)/CircularBuffer.h
+SOURCES += $(PLUGINSRC)/NDPluginAttrPlot.cpp
 
-DBDS += $(NDPLUGIN_DIR)/NDFileNull.dbd
-HEADERS += $(NDPLUGIN_DIR)/NDFileNull.h
-SOURCES += $(NDPLUGIN_DIR)/NDFileNull.cpp
+DBDS    += $(PLUGINSRC)/NDPosPlugin.dbd
+HEADERS += $(PLUGINSRC)/NDPosPlugin.h
+HEADERS += $(PLUGINSRC)/NDPosPluginFileReader.h
+SOURCES += $(PLUGINSRC)/NDPosPlugin.cpp 
+SOURCES += $(PLUGINSRC)/NDPosPluginFileReader.cpp
 
-#This should be be enabled (GraphicsMagick is not supported yet)!!
+HEADERS += $(PLUGINSRC)/NDPluginFile.h
+SOURCES += $(PLUGINSRC)/NDPluginFile.cpp
+
+DBDS    += $(PLUGINSRC)/NDFileNull.dbd
+HEADERS += $(PLUGINSRC)/NDFileNull.h
+SOURCES += $(PLUGINSRC)/NDFileNull.cpp
+
+
+
+## Still need to re-think how we handle the GRAPHICSMAGICK later
+## 
 ifeq ($(WITH_GRAPHICSMAGICK),YES)
   ifeq ($(GRAPHICSMAGICK_PREFIX_SYMBOLS),YES)
     USR_CXXFLAGS += -DPREFIX_MAGICK_SYMBOLS
   endif
-  DBD      += NDFileMagick.dbd
-  HEADERS += $(NDPLUGIN_DIR)/NDFileMagick.h
-  SOURCES += $(NDPLUGIN_DIR)/NDFileMagick.cpp
-  ifdef GRAPHICSMAGICK_INCLUDE
-    USR_INCLUDES += -I$(GRAPHICSMAGICK_INCLUDE)
+  DBD      += $(PLUGINSRC)/NDFileMagick.dbd
+  HEADERS      += $(PLUGINSRC)/NDFileMagick.h
+  SOURCES += $(PLUGINSRC)/NDFileMagick.cpp
+  ifdef GRAPHICSMAGICK_HEADERSLUDE
+    USR_HEADERSLUDES += -I$(GRAPHICSMAGICK_HEADERSLUDE)
   endif
 endif
 
-ifeq ($(WITH_HDF5),YES)
-  DBD      += NDFileHDF5.dbd
-  HEADERS += $(NDPLUGIN_DIR)/NDFileHDF5.h
-  HEADERS += $(NDPLUGIN_DIR)/NDFileHDF5Dataset.h
-  HEADERS += $(NDPLUGIN_DIR)/NDFileHDF5AttributeDataset.h
-  HEADERS += $(NDPLUGIN_DIR)/NDFileHDF5Layout.h
-  HEADERS += $(NDPLUGIN_DIR)/NDFileHDF5LayoutXML.h
-  HEADERS += $(NDPLUGIN_DIR)/NDFileHDF5VersionCheck.h
-  SOURCES += $(NDPLUGIN_DIR)/NDFileHDF5.cpp 
-  SOURCES += $(NDPLUGIN_DIR)/NDFileHDF5Dataset.cpp 
-  SOURCES += $(NDPLUGIN_DIR)/NDFileHDF5AttributeDataset.cpp 
-  SOURCES += $(NDPLUGIN_DIR)/NDFileHDF5LayoutXML.cpp 
-  SOURCES += $(NDPLUGIN_DIR)/NDFileHDF5Layout.cpp 
-endif
 
-ifeq ($(WITH_JPEG),YES)
-  DBD      += NDFileJPEG.dbd
-  HEADERS += $(NDPLUGIN_DIR)/NDFileJPEG.h
-  SOURCES += $(NDPLUGIN_DIR)/NDFileJPEG.cpp 
-endif
+# We enabled HDF5, JPEG, NETCDF, NEXUS, TIFF in ADSupport
+# So, we follow them
+# 
+#ifeq ($(WITH_HDF5),YES)
+DBDS    += $(PLUGINSRC)/NDFileHDF5.dbd
+HEADERS += $(PLUGINSRC)/NDFileHDF5.h
+HEADERS += $(PLUGINSRC)/NDFileHDF5Dataset.h
+HEADERS += $(PLUGINSRC)/NDFileHDF5AttributeDataset.h
+HEADERS += $(PLUGINSRC)/NDFileHDF5Layout.h
+HEADERS += $(PLUGINSRC)/NDFileHDF5LayoutXML.h
+HEADERS += $(PLUGINSRC)/NDFileHDF5VersionCheck.h
+SOURCES += $(PLUGINSRC)/NDFileHDF5.cpp 
+SOURCES += $(PLUGINSRC)/NDFileHDF5Dataset.cpp 
+SOURCES += $(PLUGINSRC)/NDFileHDF5AttributeDataset.cpp 
+SOURCES += $(PLUGINSRC)/NDFileHDF5LayoutXML.cpp 
+SOURCES += $(PLUGINSRC)/NDFileHDF5Layout.cpp 
+#endif
 
-ifeq ($(WITH_NETCDF),YES)
-  DBD      += NDFileNetCDF.dbd
-  HEADERS += $(NDPLUGIN_DIR)/NDFileNetCDF.h
-  SOURCES += $(NDPLUGIN_DIR)/NDFileNetCDF.cpp
-endif
+#ifeq ($(WITH_JPEG),YES)
+DBDS    += $(PLUGINSRC)/NDFileJPEG.dbd
+HEADERS += $(PLUGINSRC)/NDFileJPEG.h
+SOURCES += $(PLUGINSRC)/NDFileJPEG.cpp 
+#endif
 
-ifeq ($(WITH_NEXUS),YES)
-  DBD      += NDFileNexus.dbd
-  HEADERS += $(NDPLUGIN_DIR)/NDFileNexus.h
-  SOURCES += $(NDPLUGIN_DIR)/NDFileNexus.cpp 
-endif
+#ifeq ($(WITH_NETCDF),YES)
+DBDS    += $(PLUGINSRC)/NDFileNetCDF.dbd
+HEADERS += $(PLUGINSRC)/NDFileNetCDF.h
+SOURCES += $(PLUGINSRC)/NDFileNetCDF.cpp
+#endif
 
-ifeq ($(WITH_TIFF),YES)
-  DBD      += NDFileTIFF.dbd
-  HEADERS += $(NDPLUGIN_DIR)/NDFileTIFF.h
-  SOURCES += $(NDPLUGIN_DIR)/NDFileTIFF.cpp 
-  ifeq ($(SHARED_LIBRARIES),NO)
-    # This flag is used to indicate that the TIFF library was built statically
-    USR_CXXFLAGS_WIN32 += -DLIBTIFF_STATIC
-  endif
-endif
+#ifeq ($(WITH_NEXUS),YES)
+DBDS    += $(PLUGINSRC)/NDFileNexus.dbd
+HEADERS += $(PLUGINSRC)/NDFileNexus.h
+SOURCES += $(PLUGINSRC)/NDFileNexus.cpp 
+#endif
+
+#ifeq ($(WITH_TIFF),YES)
+DBDS    += $(PLUGINSRC)/NDFileTIFF.dbd
+HEADERS += $(PLUGINSRC)/NDFileTIFF.h
+SOURCES += $(PLUGINSRC)/NDFileTIFF.cpp 
+#endif
 
 ifeq ($(WITH_PVA), YES)
-  DBD += NDPluginPva.dbd
-  HEADERS += $(NDPLUGIN_DIR)/NDPluginPva.h
-  SOURCES += $(NDPLUGIN_DIR)/NDPluginPva.cpp
+  DBD += $(PLUGINSRC)/NDPluginPva.dbd
+  HEADERS += $(PLUGINSRC)/NDPluginPva.h
+  SOURCES += $(PLUGINSRC)/NDPluginPva.cpp
 endif
 
-ifdef HDF5_INCLUDE
-  USR_INCLUDES += -I$(HDF5_INCLUDE)
-endif
-ifdef SZIP_INCLUDE
-  USR_INCLUDES += -I$(SZIP_INCLUDE)
-endif
-ifdef XML2_INCLUDE
-  USR_INCLUDES += -I$(XML2_INCLUDE)
-endif
 
-#######################################################################################
 
-DBDS	+= $(AD_DIR)/ADSupport.dbd
 
-HEADERS	+= $(AD_DIR)/ADCoreVersion.h
-HEADERS	+= $(AD_DIR)/NDAttribute.h
-HEADERS	+= $(AD_DIR)/NDAttributeList.h
-HEADERS	+= $(AD_DIR)/NDArray.h
-HEADERS	+= $(AD_DIR)/PVAttribute.h
-HEADERS	+= $(AD_DIR)/paramAttribute.h
-HEADERS	+= $(AD_DIR)/functAttribute.h
-HEADERS	+= $(AD_DIR)/asynNDArrayDriver.h
-HEADERS	+= $(AD_DIR)/ADDriver.h
+DBDS	+= $(ADCORESRC)/ADSupport.dbd
 
-#LIBRARY_IOC = ADBase
-SOURCES	+= $(AD_DIR)/NDAttribute.cpp
-SOURCES	+= $(AD_DIR)/NDAttributeList.cpp
-SOURCES	+= $(AD_DIR)/NDArrayPool.cpp
-SOURCES	+= $(AD_DIR)/NDArray.cpp
-SOURCES	+= $(AD_DIR)/asynNDArrayDriver.cpp
-SOURCES	+= $(AD_DIR)/ADDriver.cpp
-SOURCES	+= $(AD_DIR)/paramAttribute.cpp
-ifeq ($(EPICS_LIBCOM_ONLY),YES)
-  USR_CXXFLAGS += -DEPICS_LIBCOM_ONLY
-else
-  SOURCES	+= $(AD_DIR)/PVAttribute.cpp
-  SOURCES	+= $(AD_DIR)/functAttribute.cpp
-  SOURCES	+= $(AD_DIR)/parseAreaPrefixes.c
-  SOURCES	+= $(AD_DIR)/myTimeStampSource.cpp
-  SOURCES	+= $(AD_DIR)/myAttributeFunctions.cpp
-endif
+HEADERS += $(ADCORESRC)/ADCoreVersion.h
+HEADERS += $(ADCORESRC)/NDAttribute.h
+HEADERS += $(ADCORESRC)/NDAttributeList.h
+HEADERS += $(ADCORESRC)/NDArray.h
+HEADERS += $(ADCORESRC)/PVAttribute.h
+HEADERS += $(ADCORESRC)/paramAttribute.h
+HEADERS += $(ADCORESRC)/functAttribute.h
+HEADERS += $(ADCORESRC)/asynNDArrayDriver.h
+HEADERS += $(ADCORESRC)/ADDriver.h
 
-ifeq (0, 1)
+SOURCES += $(ADCORESRC)/NDAttribute.cpp
+SOURCES += $(ADCORESRC)/NDAttributeList.cpp
+SOURCES += $(ADCORESRC)/NDArrayPool.cpp
+SOURCES += $(ADCORESRC)/NDArray.cpp
+SOURCES += $(ADCORESRC)/asynNDArrayDriver.cpp
+SOURCES += $(ADCORESRC)/ADDriver.cpp
+SOURCES += $(ADCORESRC)/paramAttribute.cpp
+SOURCES += $(ADCORESRC)/PVAttribute.cpp
+SOURCES += $(ADCORESRC)/functAttribute.cpp
+SOURCES += $(ADCORESRC)/parseAreaPrefixes.c
+SOURCES += $(ADCORESRC)/myTimeStampSource.cpp
+SOURCES += $(ADCORESRC)/myAttributeFunctions.cpp
 
-LIB_LIBS += asyn
-ifeq ($(EPICS_LIBCOM_ONLY),YES)
-  LIB_LIBS += Com
-else
-  LIB_LIBS += $(EPICS_BASE_IOC_LIBS)
-endif
-ifeq ($(XML2_EXTERNAL),NO)
-  LIB_LIBS += xml2
-else
-  ifdef XML2_INCLUDE
-    USR_INCLUDES += -I$(XML2_INCLUDE)
-  endif
-  ifdef XML2_LIB
-    xml2_DIR     = $(XML2_LIB)
-    LIB_LIBS     += xml2
-  else
-    LIB_SYS_LIBS += xml2
-  endif
-endif
 
-endif #ifeq (0,1)
 
-###################################### Adding templates ################################
-
+# We install all templates whether we enable it or not.
 # General
-TEMPLATES += $(TEMPLATE_DIR)/NDArrayBase.template
-TEMPLATES += $(TEMPLATE_DIR)/ADBase.template
-TEMPLATES += $(TEMPLATE_DIR)/ADPrefixes.template
+TEMPLATES += $(ADCOREDB)/NDArrayBase.template
+TEMPLATES += $(ADCOREDB)/ADBase.template
+TEMPLATES += $(ADCOREDB)/ADPrefixes.template
 
 # Plugins
-TEMPLATES += $(TEMPLATE_DIR)/NDAttribute.template
-TEMPLATES += $(TEMPLATE_DIR)/NDAttributeN.template
-TEMPLATES += $(TEMPLATE_DIR)/NDCircularBuff.template
-TEMPLATES += $(TEMPLATE_DIR)/NDColorConvert.template
-TEMPLATES += $(TEMPLATE_DIR)/NDFFT.template
-TEMPLATES += $(TEMPLATE_DIR)/NDFile.template
-TEMPLATES += $(TEMPLATE_DIR)/NDFileHDF5.template
-TEMPLATES += $(TEMPLATE_DIR)/NDFileJPEG.template
-TEMPLATES += $(TEMPLATE_DIR)/NDFileNetCDF.template
-TEMPLATES += $(TEMPLATE_DIR)/NDFileNexus.template
-TEMPLATES += $(TEMPLATE_DIR)/NDFileTIFF.template
-TEMPLATES += $(TEMPLATE_DIR)/NDGather.template
-TEMPLATES += $(TEMPLATE_DIR)/NDGatherN.template
-TEMPLATES += $(TEMPLATE_DIR)/NDOverlay.template
-TEMPLATES += $(TEMPLATE_DIR)/NDOverlayN.template
-TEMPLATES += $(TEMPLATE_DIR)/NDPluginBase.template
-TEMPLATES += $(TEMPLATE_DIR)/NDPosPlugin.template
-TEMPLATES += $(TEMPLATE_DIR)/NDProcess.template
-TEMPLATES += $(TEMPLATE_DIR)/NDROI.template
-TEMPLATES += $(TEMPLATE_DIR)/NDROIStat.template
-TEMPLATES += $(TEMPLATE_DIR)/NDROIStatN.template
-TEMPLATES += $(TEMPLATE_DIR)/NDROIStat8.template
-TEMPLATES += $(TEMPLATE_DIR)/NDScatter.template
-TEMPLATES += $(TEMPLATE_DIR)/NDStats.template
-TEMPLATES += $(TEMPLATE_DIR)/NDStdArrays.template
-TEMPLATES += $(TEMPLATE_DIR)/NDTimeSeries.template
-TEMPLATES += $(TEMPLATE_DIR)/NDTimeSeriesN.template
-TEMPLATES += $(TEMPLATE_DIR)/NDTransform.template
-TEMPLATES += $(TEMPLATE_DIR)/NDAttrPlotAttr.template
-TEMPLATES += $(TEMPLATE_DIR)/NDAttrPlotData.template
-TEMPLATES += $(TEMPLATE_DIR)/NDAttrPlot.template
+TEMPLATES += $(ADCOREDB)/NDAttribute.template
+TEMPLATES += $(ADCOREDB)/NDAttributeN.template
+TEMPLATES += $(ADCOREDB)/NDCircularBuff.template
+TEMPLATES += $(ADCOREDB)/NDColorConvert.template
+TEMPLATES += $(ADCOREDB)/NDFFT.template
+TEMPLATES += $(ADCOREDB)/NDFile.template
+TEMPLATES += $(ADCOREDB)/NDFileHDF5.template
+TEMPLATES += $(ADCOREDB)/NDFileJPEG.template
+TEMPLATES += $(ADCOREDB)/NDFileMagick.template
+TEMPLATES += $(ADCOREDB)/NDFileNetCDF.template
+TEMPLATES += $(ADCOREDB)/NDFileNexus.template
+TEMPLATES += $(ADCOREDB)/NDFileTIFF.template
+TEMPLATES += $(ADCOREDB)/NDGather.template
+TEMPLATES += $(ADCOREDB)/NDGatherN.template
+TEMPLATES += $(ADCOREDB)/NDOverlay.template
+TEMPLATES += $(ADCOREDB)/NDOverlayN.template
+TEMPLATES += $(ADCOREDB)/NDPluginBase.template
+TEMPLATES += $(ADCOREDB)/NDPosPlugin.template
+TEMPLATES += $(ADCOREDB)/NDProcess.template
+TEMPLATES += $(ADCOREDB)/NDPva.template
+TEMPLATES += $(ADCOREDB)/NDROI.template
+TEMPLATES += $(ADCOREDB)/NDROIStat.template
+TEMPLATES += $(ADCOREDB)/NDROIStatN.template
+TEMPLATES += $(ADCOREDB)/NDROIStat8.template
+TEMPLATES += $(ADCOREDB)/NDScatter.template
+TEMPLATES += $(ADCOREDB)/NDStats.template
+TEMPLATES += $(ADCOREDB)/NDStdArrays.template
+TEMPLATES += $(ADCOREDB)/NDTimeSeries.template
+TEMPLATES += $(ADCOREDB)/NDTimeSeriesN.template
+TEMPLATES += $(ADCOREDB)/NDTransform.template
+TEMPLATES += $(ADCOREDB)/NDAttrPlotAttr.template
+TEMPLATES += $(ADCOREDB)/NDAttrPlotData.template
+TEMPLATES += $(ADCOREDB)/NDAttrPlot.template
 
-ifeq ($(WITH_GRAPHICSMAGICK),YES)
-	TEMPLATES += $(TEMPLATE_DIR)/NDFileMagick.template
-endif
-
-ifeq ($(WITH_PVA),YES)
-	TEMPLATES += $(TEMPLATE_DIR)/NDPva.template
-endif
 
 
