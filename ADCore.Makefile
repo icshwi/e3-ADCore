@@ -29,6 +29,19 @@ where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 include $(E3_REQUIRE_TOOLS)/driver.makefile
 
+# Exclude linux-ppc64e6500
+EXCLUDE_ARCHS = linux-ppc64e6500
+
+ifneq ($(strip $(ASYN_DEP_VERSION)),)
+asyn_VERSION=$(ASYN_DEP_VERSION)
+endif
+
+ifneq ($(strip $(ADSUPPORT_DEP_VERSION)),)
+ADSupport_VERSION=$(ADSUPPORT_DEP_VERSION)
+endif
+
+
+
 ADCAPP = ADApp
 
 ADCORESRC:=$(ADCAPP)/ADSrc
