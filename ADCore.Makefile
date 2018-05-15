@@ -45,9 +45,9 @@ endif
 ADCAPP = ADApp
 
 ADCORESRC:=$(ADCAPP)/ADSrc
-PLUGINSRC:=$(ADCAPP)/pluginSrc
 ADCOREDB:=$(ADCAPP)/Db
-
+PLUGINSRC:=$(ADCAPP)/pluginSrc
+IOCBOOT:=iocBoot
 
 
 ## We will use XML2 as the system lib, instead of ADSupport
@@ -282,6 +282,8 @@ TEMPLATES += $(ADCOREDB)/NDAttrPlotAttr.template
 TEMPLATES += $(ADCOREDB)/NDAttrPlotData.template
 TEMPLATES += $(ADCOREDB)/NDAttrPlot.template
 
+
+SCRIPTS   += $(IOCBOOT)/EXAMPLE_commonPlugins.cmd
 
 
 
