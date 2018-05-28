@@ -49,7 +49,7 @@ dbLoadRecords("NDTimeSeriesN.template", "$(COMMON), NAME=Test, NCHANS=$(NCHANS)"
 dbLoadRecords("NDTransform.template", "$(PLUGIN_BASE)")
 
 # busy
-require busy,c8ea03e
+require busy,1.7.0
 
 dbLoadRecords("ADBase.template", "P=$(P), R=$(R), PORT=$(PORT), ADDR=$(ADDR), TIMEOUT=$(TIMEOUT)")
 dbLoadRecords("NDCircularBuff.template", "$(PLUGIN_BASE), PRECOUNT=0, POSTCOUNT=10")
@@ -67,7 +67,7 @@ dbLoadRecords("NDTimeSeries.template", "P=$(P), R=$(R)NdTimeS-, PORT=$(PORT), AD
 #dbLoadRecords("NDFileMagick.template", "$(PLUGIN_BASE)")
 
 # calc
-require calc,4aab3c
+require calc,3.7.0
 
 dbLoadRecords("NDStats.template", "P=$(P), R=$(R)Stats-, PORT=$(PORT), ADDR=$(ADDR), TIMEOUT=$(TIMEOUT), NDARRAY_PORT=$(NDARRAY_PORT), NCHANS=$(NCHANS), YSIZE=2, XSIZE=4, HIST_SIZE=10")
 
