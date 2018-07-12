@@ -18,8 +18,8 @@
 # Author  : william, Jeong Han Lee
 # email   : william@esss.se
 #         : jeonghan.lee@gmail.com
-# Date    : Thursday, July 12 22:54:54 CEST 2018
-# version : 0.0.1
+# Date    : Thursday, July 12 23:28:57 CEST 2018
+# version : 0.0.2
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -208,13 +208,10 @@ ifeq ($(WITH_PVA), YES)
   DBDS    += $(PLUGINSRC)/NDPluginPva.dbd
   HEADERS += $(PLUGINSRC)/NDPluginPva.h
   SOURCES += $(PLUGINSRC)/NDPluginPva.cpp
+
+  HEADERS += $(NTNDARRAYCONVERTERSRC)/ntndArrayConverter.h
+  SOURCES += $(NTNDARRAYCONVERTERSRC)/ntndArrayConverter.cpp
 endif
-
-
-
-
-HEADERS += $(NTNDARRAYCONVERTERSRC)/ntndArrayConverter.h
-SOURCES += $(NTNDARRAYCONVERTERSRC)/ntndArrayConverter.cpp
 
 
 DBDS	+= $(ADCORESRC)/ADSupport.dbd
