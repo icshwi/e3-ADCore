@@ -18,8 +18,8 @@
 # Author  : william, Jeong Han Lee
 # email   : william@esss.se
 #         : jeonghan.lee@gmail.com
-# Date    : Thursday, July 12 23:28:57 CEST 2018
-# version : 0.0.2
+# Date    : Thursday, September 13 22:44:45 CEST 2018
+# version : 0.0.3
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -29,6 +29,8 @@ include $(E3_REQUIRE_TOOLS)/driver.makefile
 # Exclude linux-ppc64e6500
 EXCLUDE_ARCHS = linux-ppc64e6500
 
+
+
 ifneq ($(strip $(ASYN_DEP_VERSION)),)
 asyn_VERSION=$(ASYN_DEP_VERSION)
 endif
@@ -36,6 +38,85 @@ endif
 ifneq ($(strip $(ADSUPPORT_DEP_VERSION)),)
 ADSupport_VERSION=$(ADSUPPORT_DEP_VERSION)
 endif
+
+
+
+# *** ISSUES
+# driver.makefile recursively read all include directories which were installed.
+# The only way to exclude header files is....
+
+
+
+iocStats_VERSION=
+autosave_VERSION=
+#asyn_VERSION=
+busy_VERSION=
+modbus_VERSION=
+ipmiComm_VERSION=
+sequencer_VERSION=
+sscan_VERSION=
+
+std_VERSION=
+ip_VERSION=
+calc_VERSION=
+pcre_VERSION=
+stream_VERSION=
+s7plc_VERSION=
+recsync_VERSION=
+
+devlib2_VERSION=
+mrfioc2_VERSION=
+
+exprtk_VERSION=
+motor_VERSION=
+ecmc_VERSION=
+EthercatMC_VERSION=
+ecmctraining_VERSION=
+
+
+keypress_VERSION=
+sysfs_VERSION=
+symbolname_VERSION=
+memDisplay_VERSION=
+regdev_VERSION=
+i2cDev_VERSION=
+
+tosca_VERSION=
+tsclib_VERSION=
+ifcdaqdrv2_VERSION=
+
+## The main issue is nds3, it is mandatory to disable it
+## 
+nds3_VERSION=
+nds3epics_VERSION=
+ifc14edrv_VERSION=
+ifcfastint_VERSION=
+
+
+nds_VERSION=
+loki_VERSION=
+nds_VERSION=
+sis8300drv_VERSION=
+sis8300_VERSION=
+sis8300llrfdrv_VERSION=
+sis8300llrf_VERSION=
+
+
+#ADSupport_VERSION=
+#ADCore_VERSION=
+ADSimDetector_VERSION=
+ADAndor_VERSION=
+ADAndor3_VERSION=
+ADPointGrey_VERSION=
+ADProsilica_VERSION=
+
+amcpico8_VERSION=
+adpico8_VERSION=
+adsis8300_VERSION=
+adsis8300bcm_VERSION=
+adsis8300bpm_VERSION=
+adsis8300fc_VERSION=
+
 
 
 
