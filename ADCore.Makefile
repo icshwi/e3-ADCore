@@ -39,6 +39,24 @@ ifneq ($(strip $(ADSUPPORT_DEP_VERSION)),)
 ADSupport_VERSION=$(ADSUPPORT_DEP_VERSION)
 endif
 
+ifneq ($(strip $(PVDATA_DEP_VERSION)),)
+pvData_VERSION=$(PVDATA_DEP_VERSION)
+endif
+
+ifneq ($(strip $(PVACCESS_DEP_VERSION)),)
+pvAccess_VERSION=$(PVACCESS_DEP_VERSION)
+endif
+
+
+ifneq ($(strip $(PVDATABASE_DEP_VERSION)),)
+pvDatabase_VERSION=$(PVDATABASE_DEP_VERSION)
+endif
+
+
+ifneq ($(strip $(NORMATIVETYPES_DEP_VERSION)),)
+normativeTypes_VERSION=$(NORMATIVETYPES_DEP_VERSION)
+endif
+
 
 
 
