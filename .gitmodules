@@ -1,4 +1,4 @@
 [submodule "ADCore"]
 	path = ADCore
 	url = https://github.com/areaDetector/ADCore
-	ignore = all
+	ignore = dirty
