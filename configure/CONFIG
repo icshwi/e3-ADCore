@@ -1,15 +1,18 @@
 VARS_EXCLUDES := $(.VARIABLES)
 
 
-CONFIG=$(EPICS_BASE)/configure
-include $(CONFIG)/CONFIG_BASE_VERSION
-
 
 ifneq (,$(findstring dev,$(MAKECMDGOALS)))
 include $(TOP)/configure/RELEASE_DEV
 else
 include $(TOP)/configure/RELEASE
 endif
+
+
+CONFIG=$(EPICS_BASE)/configure
+include $(CONFIG)/CONFIG_BASE_VERSION
+
+
 
 ifneq (,$(findstring dev,$(MAKECMDGOALS)))
 include $(TOP)/configure/CONFIG_MODULE_DEV
