@@ -10,7 +10,7 @@ endif
 
 
 CONFIG=$(EPICS_BASE)/configure
-include $(CONFIG)/CONFIG_BASE_VERSION
+-include $(CONFIG)/CONFIG_BASE_VERSION
 
 
 
