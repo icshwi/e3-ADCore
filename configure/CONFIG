@@ -1,26 +1,21 @@
 VARS_EXCLUDES := $(.VARIABLES)
 
 
+CONFIG=$(EPICS_BASE)/configure
+include $(CONFIG)/CONFIG_BASE_VERSION
+
+
 ifneq (,$(findstring dev,$(MAKECMDGOALS)))
 include $(TOP)/configure/RELEASE_DEV
 else
 include $(TOP)/configure/RELEASE
 endif
 
-# CONFIG=$(EPICS_BASE)/configure
-# include $(CONFIG)/CONFIG
-
 ifneq (,$(findstring dev,$(MAKECMDGOALS)))
 include $(TOP)/configure/CONFIG_MODULE_DEV
 else
 include $(TOP)/configure/CONFIG_MODULE
 endif
-
-# The definitions shown below can also be placed in an untracked RELEASE.local
--include $(TOP)/../RELEASE.local
--include $(TOP)/configure/RELEASE.local
--include $(TOP)/../CONFIG_MODULE.local
--include $(TOP)/configure/CONFIG_MODULE.local
 
 
 ## Asyn, ADSupport may needs to define other variables
