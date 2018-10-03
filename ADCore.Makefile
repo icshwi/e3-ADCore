@@ -39,8 +39,8 @@ ifneq ($(strip $(ADSUPPORT_DEP_VERSION)),)
 ADSupport_VERSION=$(ADSUPPORT_DEP_VERSION)
 endif
 
-# We don't have 3.14 and 3.16
-ifeq ($(BASE_3_15),YES)
+# # We don't have 3.14 and 3.16
+# ifeq ($(BASE_3_15),YES)
 
 ifneq ($(strip $(PVDATA_DEP_VERSION)),)
 pvData_VERSION=$(PVDATA_DEP_VERSION)
@@ -58,15 +58,15 @@ ifneq ($(strip $(NORMATIVETYPES_DEP_VERSION)),)
 normativeTypes_VERSION=$(NORMATIVETYPES_DEP_VERSION)
 endif
 
-endif # ifeq ($(BASE_3_15),YES)
+# endif # ifeq ($(BASE_3_15),YES)
 
 
-ifeq ($(BASE_7_0),YES)	
-ifeq ($(T_A),linux-x86_64)
-USR_LDFLAGS  += -L$(EPICS_BASE)/lib/$(T_A)
-LIB_SYS_LIBS += nt pvDatabase
-endif
-endif # ($(BASE_7_0),YES)	
+# ifeq ($(BASE_7_0),YES)	
+# ifeq ($(T_A),linux-x86_64)
+# USR_LDFLAGS  += -L$(EPICS_BASE)/lib/$(T_A)
+# LIB_SYS_LIBS += nt pvDatabase
+# endif
+# endif # ($(BASE_7_0),YES)	
 
 
 
