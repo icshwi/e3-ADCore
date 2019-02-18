@@ -18,8 +18,8 @@
 # Author  : william, Jeong Han Lee
 # email   : william@esss.se
 #         : jeonghan.lee@gmail.com
-# Date    : Thursday, September 13 22:44:45 CEST 2018
-# version : 0.0.3
+# Date    : Monday, February 11 17:02:28 CET 2019
+# version : 0.0.4
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -318,10 +318,15 @@ TEMPLATES += $(ADCOREDB)/NDAttrPlotData.template
 TEMPLATES += $(ADCOREDB)/NDAttrPlot.template
 
 
-SCRIPTS   += $(IOCBOOT)/EXAMPLE_commonPlugins.cmd
+#SCRIPTS   += $(IOCBOOT)/EXAMPLE_commonPlugins.cmd
+
+
+SCRIPTS += $(wildcard ../iocsh/*.iocsh)
 
 
 # db rule is the default in RULES_E3, so add the empty one
+
+.PHONY: db
 
 db:
 #
