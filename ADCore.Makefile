@@ -1,4 +1,5 @@
 #
+#  Copyright (c) 2019            Jeong Han Lee
 #  Copyright (c) 2017 - Present  European Spallation Source ERIC
 #
 #  The program is free software: you can redistribute
@@ -18,8 +19,8 @@
 # Author  : william, Jeong Han Lee
 # email   : william@esss.se
 #         : jeonghan.lee@gmail.com
-# Date    : Monday, February 11 17:02:28 CET 2019
-# version : 0.0.4
+# Date    : Thursday, March 28 22:23:27 CET 2019
+# version : 0.0.5
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -27,9 +28,7 @@ include $(E3_REQUIRE_TOOLS)/driver.makefile
 include $(E3_REQUIRE_CONFIG)/DECOUPLE_FLAGS
 
 # Exclude linux-ppc64e6500
-EXCLUDE_ARCHS = linux-ppc64e6500
-
-
+# EXCLUDE_ARCHS = linux-ppc64e6500
 
 ifneq ($(strip $(ASYN_DEP_VERSION)),)
 asyn_VERSION=$(ASYN_DEP_VERSION)
@@ -70,10 +69,6 @@ endif
 
 
 
-
-
-
-
 ADCAPP = ADApp
 
 ADCORESRC:=$(ADCAPP)/ADSrc
@@ -86,7 +81,15 @@ IOCBOOT:=iocBoot
 ## We will use XML2 as the system lib, instead of ADSupport
 ## Do we need to load libxml2 when we start iocsh?
 
+
+ifeq ($(T_A),linux-ppc64e6500)
+USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/libxml2
+else ifeq ($(T_A),linux-corei7-poky)
+USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/libxml2
+else
 USR_INCLUDES += -I/usr/include/libxml2
+endif
+
 LIB_SYS_LIBS += xml2	
 
 
@@ -185,15 +188,15 @@ SOURCES += $(PLUGINSRC)/NDFileNull.cpp
 ## Still need to re-think how we handle the GRAPHICSMAGICK later
 ## 
 ifeq ($(WITH_GRAPHICSMAGICK),YES)
-  ifeq ($(GRAPHICSMAGICK_PREFIX_SYMBOLS),YES)
-    USR_CXXFLAGS += -DPREFIX_MAGICK_SYMBOLS
-  endif
-  DBD      += $(PLUGINSRC)/NDFileMagick.dbd
-  HEADERS      += $(PLUGINSRC)/NDFileMagick.h
-  SOURCES += $(PLUGINSRC)/NDFileMagick.cpp
-  ifdef GRAPHICSMAGICK_HEADERSLUDE
-    USR_HEADERSLUDES += -I$(GRAPHICSMAGICK_HEADERSLUDE)
-  endif
+ifeq ($(GRAPHICSMAGICK_PREFIX_SYMBOLS),YES)
+USR_CXXFLAGS += -DPREFIX_MAGICK_SYMBOLS
+endif
+DBD     += $(PLUGINSRC)/NDFileMagick.dbd
+HEADERS += $(PLUGINSRC)/NDFileMagick.h
+SOURCES += $(PLUGINSRC)/NDFileMagick.cpp
+ifdef GRAPHICSMAGICK_HEADERSLUDE
+USR_HEADERSLUDES += -I$(GRAPHICSMAGICK_HEADERSLUDE)
+endif
 endif
 
 
@@ -240,12 +243,12 @@ SOURCES += $(PLUGINSRC)/NDFileTIFF.cpp
 #endif
 
 ifeq ($(WITH_PVA), YES)
-  DBDS    += $(PLUGINSRC)/NDPluginPva.dbd
-  HEADERS += $(PLUGINSRC)/NDPluginPva.h
-  SOURCES += $(PLUGINSRC)/NDPluginPva.cpp
+DBDS    += $(PLUGINSRC)/NDPluginPva.dbd
+HEADERS += $(PLUGINSRC)/NDPluginPva.h
+SOURCES += $(PLUGINSRC)/NDPluginPva.cpp
 
-  HEADERS += $(NTNDARRAYCONVERTERSRC)/ntndArrayConverter.h
-  SOURCES += $(NTNDARRAYCONVERTERSRC)/ntndArrayConverter.cpp
+HEADERS += $(NTNDARRAYCONVERTERSRC)/ntndArrayConverter.h
+SOURCES += $(NTNDARRAYCONVERTERSRC)/ntndArrayConverter.cpp
 endif
 
 
@@ -327,7 +330,6 @@ SCRIPTS += $(wildcard ../iocsh/*.iocsh)
 # db rule is the default in RULES_E3, so add the empty one
 
 .PHONY: db
-
 db:
 #
 .PHONY: vlibs
