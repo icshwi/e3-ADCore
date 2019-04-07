@@ -1,5 +1,14 @@
 # The following variable should be in CONFIG_EXPORT
-# 
+#
+# Must Sync with ADSupport
+WITH_NETCDF:=YES
+WITH_JPEG:=YES
+WITH_ZLIB:=YES
+WITH_BLOSC:=YES
+WITH_TIFF0:=YES
+WITH_SZIP:=YES
+WITH_HDF5:=YES
+WITH_NEXUS:=YES
 WITH_PVA:=YES
 
 

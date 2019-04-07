@@ -19,7 +19,7 @@
 # Author  : william, Jeong Han Lee
 # email   : william@esss.se
 #         : jeonghan.lee@gmail.com
-# Date    : Thursday, March 28 22:23:27 CET 2019
+# Date    : Monday, April  8 00:20:10 CEST 2019
 # version : 0.0.5
 #
 
@@ -78,30 +78,27 @@ NTNDARRAYCONVERTERSRC:=$(ADCAPP)/ntndArrayConverterSrc
 IOCBOOT:=iocBoot
 
 
-## We will use XML2 as the system lib, instead of ADSupport
-## Do we need to load libxml2 when we start iocsh?
-
-
-ifeq ($(T_A),linux-ppc64e6500)
-USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/libxml2
-else ifeq ($(T_A),linux-corei7-poky)
-USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/libxml2
-else
+LIB_SYS_LIBS += xml2	
+ifeq ($(T_A),linux-x86_64)
 USR_INCLUDES += -I/usr/include/libxml2
+else
+USR_INCLUDES += -I$(SDKTARGETSYSROOT)/usr/include/libxml2
 endif
 
-LIB_SYS_LIBS += xml2	
 
 
 
 #DBDS         += NDPluginSupport.dbd
 # Persuade travis (ubuntu 12.04) to use HDF5 API V2 (1.8 rather than default 1.6)
-USR_CXXFLAGS_Linux += -DH5_NO_DEPRECATED_SYMBOLS -DH5Gopen_vers=2
+#USR_CXXFLAGS_Linux += -DH5_NO_DEPRECATED_SYMBOLS -DH5Gopen_vers=2
 
+USR_INCLUDES += -I$(where_am_I)$(PLUGINSRC)
 
 
 HEADERS += $(PLUGINSRC)/NDPluginDriver.h
 SOURCES += $(PLUGINSRC)/NDPluginDriver.cpp
+SOURCES += $(PLUGINSRC)/throttler.cpp
+
 
 DBDS    += $(PLUGINSRC)/NDPluginAttribute.dbd
 HEADERS += $(PLUGINSRC)/NDPluginAttribute.h
@@ -114,18 +111,22 @@ HEADERS += $(PLUGINSRC)/NDPluginCircularBuff.h
 SOURCES += $(PLUGINSRC)/NDPluginCircularBuff.cpp
 SOURCES += $(PLUGINSRC)/NDArrayRing.cpp
 
+
 DBDS    += $(PLUGINSRC)/NDPluginColorConvert.dbd
 HEADERS += $(PLUGINSRC)/NDPluginColorConvert.h
 SOURCES += $(PLUGINSRC)/NDPluginColorConvert.cpp
+
 
 DBDS    += $(PLUGINSRC)/NDPluginFFT.dbd
 HEADERS += $(PLUGINSRC)/NDPluginFFT.h
 SOURCES += $(PLUGINSRC)/NDPluginFFT.cpp
 SOURCES += $(PLUGINSRC)/fft.c
 
+
 DBDS    += $(PLUGINSRC)/NDPluginGather.dbd
 HEADERS += $(PLUGINSRC)/NDPluginGather.h
 SOURCES += $(PLUGINSRC)/NDPluginGather.cpp
+
 
 DBDS    += $(PLUGINSRC)/NDPluginOverlay.dbd
 HEADERS += $(PLUGINSRC)/NDPluginOverlay.h
@@ -133,42 +134,58 @@ HEADERS += $(PLUGINSRC)/NDPluginOverlayTextFont.h
 SOURCES += $(PLUGINSRC)/NDPluginOverlay.cpp
 SOURCES += $(PLUGINSRC)/NDPluginOverlayTextFont.cpp
 
+
 DBDS    += $(PLUGINSRC)/NDPluginProcess.dbd
 HEADERS += $(PLUGINSRC)/NDPluginProcess.h
 SOURCES += $(PLUGINSRC)/NDPluginProcess.cpp
+
 
 DBDS    += $(PLUGINSRC)/NDPluginROI.dbd
 HEADERS += $(PLUGINSRC)/NDPluginROI.h
 SOURCES += $(PLUGINSRC)/NDPluginROI.cpp
 
+
 DBDS    += $(PLUGINSRC)/NDPluginROIStat.dbd
 HEADERS += $(PLUGINSRC)/NDPluginROIStat.h
 SOURCES += $(PLUGINSRC)/NDPluginROIStat.cpp
+
 
 DBDS    += $(PLUGINSRC)/NDPluginScatter.dbd
 HEADERS += $(PLUGINSRC)/NDPluginScatter.h
 SOURCES += $(PLUGINSRC)/NDPluginScatter.cpp
 
+
 DBDS    += $(PLUGINSRC)/NDPluginStats.dbd
 HEADERS += $(PLUGINSRC)/NDPluginStats.h
 SOURCES += $(PLUGINSRC)/NDPluginStats.cpp
+
 
 DBDS    += $(PLUGINSRC)/NDPluginStdArrays.dbd
 HEADERS += $(PLUGINSRC)/NDPluginStdArrays.h
 SOURCES += $(PLUGINSRC)/NDPluginStdArrays.cpp
 
+
 DBDS    += $(PLUGINSRC)/NDPluginTimeSeries.dbd
 HEADERS += $(PLUGINSRC)/NDPluginTimeSeries.h
 SOURCES += $(PLUGINSRC)/NDPluginTimeSeries.cpp
+
 
 DBDS    += $(PLUGINSRC)/NDPluginTransform.dbd
 HEADERS += $(PLUGINSRC)/NDPluginTransform.h
 SOURCES += $(PLUGINSRC)/NDPluginTransform.cpp
 
+
 DBDS    += $(PLUGINSRC)/NDPluginAttrPlot.dbd
 HEADERS += $(PLUGINSRC)/NDPluginAttrPlot.h
 HEADERS += $(PLUGINSRC)/CircularBuffer.h
 SOURCES += $(PLUGINSRC)/NDPluginAttrPlot.cpp
+
+
+DBDS    += $(PLUGINSRC)/NDPluginCodec.dbd
+HEADERS += $(PLUGINSRC)/NDPluginCodec.h
+SOURCES += $(PLUGINSRC)/NDPluginCodec.cpp
+
+
 
 DBDS    += $(PLUGINSRC)/NDPosPlugin.dbd
 HEADERS += $(PLUGINSRC)/NDPosPlugin.h
@@ -176,8 +193,10 @@ HEADERS += $(PLUGINSRC)/NDPosPluginFileReader.h
 SOURCES += $(PLUGINSRC)/NDPosPlugin.cpp 
 SOURCES += $(PLUGINSRC)/NDPosPluginFileReader.cpp
 
+
 HEADERS += $(PLUGINSRC)/NDPluginFile.h
 SOURCES += $(PLUGINSRC)/NDPluginFile.cpp
+
 
 DBDS    += $(PLUGINSRC)/NDFileNull.dbd
 HEADERS += $(PLUGINSRC)/NDFileNull.h
@@ -185,25 +204,25 @@ SOURCES += $(PLUGINSRC)/NDFileNull.cpp
 
 
 
-## Still need to re-think how we handle the GRAPHICSMAGICK later
-## 
-ifeq ($(WITH_GRAPHICSMAGICK),YES)
-ifeq ($(GRAPHICSMAGICK_PREFIX_SYMBOLS),YES)
-USR_CXXFLAGS += -DPREFIX_MAGICK_SYMBOLS
-endif
-DBD     += $(PLUGINSRC)/NDFileMagick.dbd
-HEADERS += $(PLUGINSRC)/NDFileMagick.h
-SOURCES += $(PLUGINSRC)/NDFileMagick.cpp
-ifdef GRAPHICSMAGICK_HEADERSLUDE
-USR_HEADERSLUDES += -I$(GRAPHICSMAGICK_HEADERSLUDE)
-endif
-endif
+# ## Still need to re-think how we handle the GRAPHICSMAGICK later
+# ## 
+# ifeq ($(WITH_GRAPHICSMAGICK),YES)
+# ifeq ($(GRAPHICSMAGICK_PREFIX_SYMBOLS),YES)
+# USR_CXXFLAGS += -DPREFIX_MAGICK_SYMBOLS
+# endif
+# DBD     += $(PLUGINSRC)/NDFileMagick.dbd
+# HEADERS += $(PLUGINSRC)/NDFileMagick.h
+# SOURCES += $(PLUGINSRC)/NDFileMagick.cpp
+# ifdef GRAPHICSMAGICK_HEADERSLUDE
+# USR_HEADERSLUDES += -I$(GRAPHICSMAGICK_HEADERSLUDE)
+# endif
+# endif
 
 
 # We enabled HDF5, JPEG, NETCDF, NEXUS, TIFF in ADSupport
 # So, we follow them
 # 
-#ifeq ($(WITH_HDF5),YES)
+ifeq ($(WITH_HDF5),YES)
 DBDS    += $(PLUGINSRC)/NDFileHDF5.dbd
 HEADERS += $(PLUGINSRC)/NDFileHDF5.h
 HEADERS += $(PLUGINSRC)/NDFileHDF5Dataset.h
@@ -216,31 +235,32 @@ SOURCES += $(PLUGINSRC)/NDFileHDF5Dataset.cpp
 SOURCES += $(PLUGINSRC)/NDFileHDF5AttributeDataset.cpp 
 SOURCES += $(PLUGINSRC)/NDFileHDF5LayoutXML.cpp 
 SOURCES += $(PLUGINSRC)/NDFileHDF5Layout.cpp 
-#endif
+endif
 
-#ifeq ($(WITH_JPEG),YES)
+ifeq ($(WITH_JPEG),YES)
 DBDS    += $(PLUGINSRC)/NDFileJPEG.dbd
 HEADERS += $(PLUGINSRC)/NDFileJPEG.h
-SOURCES += $(PLUGINSRC)/NDFileJPEG.cpp 
-#endif
+SOURCES += $(PLUGINSRC)/NDFileJPEG.cpp
+USR_CXXFLAGS += -DHAVE_JPEG	
+endif
 
-#ifeq ($(WITH_NETCDF),YES)
+ifeq ($(WITH_NETCDF),YES)
 DBDS    += $(PLUGINSRC)/NDFileNetCDF.dbd
 HEADERS += $(PLUGINSRC)/NDFileNetCDF.h
 SOURCES += $(PLUGINSRC)/NDFileNetCDF.cpp
-#endif
+endif
 
-#ifeq ($(WITH_NEXUS),YES)
+ifeq ($(WITH_NEXUS),YES)
 DBDS    += $(PLUGINSRC)/NDFileNexus.dbd
 HEADERS += $(PLUGINSRC)/NDFileNexus.h
 SOURCES += $(PLUGINSRC)/NDFileNexus.cpp 
-#endif
+endif
 
-#ifeq ($(WITH_TIFF),YES)
+ifeq ($(WITH_TIFF0),YES)
 DBDS    += $(PLUGINSRC)/NDFileTIFF.dbd
 HEADERS += $(PLUGINSRC)/NDFileTIFF.h
 SOURCES += $(PLUGINSRC)/NDFileTIFF.cpp 
-#endif
+endif
 
 ifeq ($(WITH_PVA), YES)
 DBDS    += $(PLUGINSRC)/NDPluginPva.dbd
@@ -251,6 +271,15 @@ HEADERS += $(NTNDARRAYCONVERTERSRC)/ntndArrayConverter.h
 SOURCES += $(NTNDARRAYCONVERTERSRC)/ntndArrayConverter.cpp
 endif
 
+ifeq ($(WITH_BLOSC), YES)
+  USR_CXXFLAGS += -DHAVE_BLOSC
+endif
+
+
+ifeq ($(WITH_BITSHUFFLE), YES)
+  USR_CXXFLAGS += -DHAVE_BITSHUFFLE
+endif
+
 
 DBDS	+= $(ADCORESRC)/ADSupport.dbd
 
@@ -258,6 +287,7 @@ HEADERS += $(ADCORESRC)/ADCoreVersion.h
 HEADERS += $(ADCORESRC)/NDAttribute.h
 HEADERS += $(ADCORESRC)/NDAttributeList.h
 HEADERS += $(ADCORESRC)/NDArray.h
+HEADERS += $(ADCORESRC)/Codec.h
 HEADERS += $(ADCORESRC)/PVAttribute.h
 HEADERS += $(ADCORESRC)/paramAttribute.h
 HEADERS += $(ADCORESRC)/functAttribute.h
@@ -319,6 +349,7 @@ TEMPLATES += $(ADCOREDB)/NDTransform.template
 TEMPLATES += $(ADCOREDB)/NDAttrPlotAttr.template
 TEMPLATES += $(ADCOREDB)/NDAttrPlotData.template
 TEMPLATES += $(ADCOREDB)/NDAttrPlot.template
+TEMPLATES += $(ADCOREDB)/NDCodec.template
 
 
 #SCRIPTS   += $(IOCBOOT)/EXAMPLE_commonPlugins.cmd
