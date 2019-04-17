@@ -41,6 +41,12 @@ endif
 # # We don't have 3.14 and 3.16
 # ifeq ($(BASE_3_15),YES)
 
+ifdef BASE_7_0
+WITHOUT_V4=YES
+endif
+
+
+ifeq ($(WITHOUT_V4),YES) 
 ifneq ($(strip $(PVDATA_DEP_VERSION)),)
 pvData_VERSION=$(PVDATA_DEP_VERSION)
 endif
@@ -56,7 +62,7 @@ endif
 ifneq ($(strip $(NORMATIVETYPES_DEP_VERSION)),)
 normativeTypes_VERSION=$(NORMATIVETYPES_DEP_VERSION)
 endif
-
+endif
 # endif # ifeq ($(BASE_3_15),YES)
 
 
