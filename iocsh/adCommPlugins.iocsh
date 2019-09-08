@@ -187,6 +187,12 @@ NDFFTConfigure("FFT1_$(UNIT)", 3, 0, "$(PORT)", 0, 0, 0, 0, 0, 5)
 #
 dbLoadRecords("NDFFT.template", "P=$(PREFIX), R=FFT1:, PORT=FFT1_$(UNIT), ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT), NAME=FFT1, NCHANS=$(XSIZE)")
 
+# Create 2 Codec plugins
+NDCodecConfigure("CODEC1_$(UNIT)", $(QSIZE), 0, "$(PORT)", 0, 0, 0, 0, 0, 5)
+dbLoadRecords("NDCodec.template", "P=$(PREFIX), R=Codec1:, PORT=CODEC1_$(UNIT), ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT)")
+NDCodecConfigure("CODEC2_$(UNIT)", $(QSIZE), 0, "$(PORT)", 0, 0, 0, 0, 0, 5)
+dbLoadRecords("NDCodec.template", "P=$(PREFIX), R=Codec2:, PORT=CODEC2_$(UNIT), ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT)")
+
 
 #
 #
