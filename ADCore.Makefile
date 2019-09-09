@@ -19,16 +19,16 @@
 # Author  : william, Jeong Han Lee
 # email   : william@esss.se
 #         : jeonghan.lee@gmail.com
-# Date    : Sunday, September  8 22:37:07 CEST 2019
-# version : 0.0.6
+# Date    : Monday, September  9 12:05:09 CEST 2019
+# version : 0.0.7
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 include $(E3_REQUIRE_TOOLS)/driver.makefile
 include $(E3_REQUIRE_CONFIG)/DECOUPLE_FLAGS
 
-# Exclude linux-ppc64e6500
-# EXCLUDE_ARCHS = linux-ppc64e6500
+EXCLUDE_ARCHS = linux-ppc64e6500
+EXCLUDE_ARCHS += linux-corei7-poky
 
 ifneq ($(strip $(ASYN_DEP_VERSION)),)
 asyn_VERSION=$(ASYN_DEP_VERSION)
