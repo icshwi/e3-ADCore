@@ -1,6 +1,6 @@
 #
 #  Copyright (c) 2019            Jeong Han Lee
-#  Copyright (c) 2017 - Present  European Spallation Source ERIC
+#  Copyright (c) 2017 - 2019     European Spallation Source ERIC
 #
 #  The program is free software: you can redistribute
 #  it and/or modify it under the terms of the GNU General Public License
@@ -19,16 +19,16 @@
 # Author  : william, Jeong Han Lee
 # email   : william@esss.se
 #         : jeonghan.lee@gmail.com
-# Date    : Monday, September  9 12:05:09 CEST 2019
-# version : 0.0.7
+# Date    : Friday, September 13 10:28:08 CEST 2019
+# version : 0.0.8
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 include $(E3_REQUIRE_TOOLS)/driver.makefile
 include $(E3_REQUIRE_CONFIG)/DECOUPLE_FLAGS
 
-EXCLUDE_ARCHS = linux-ppc64e6500
-EXCLUDE_ARCHS += linux-corei7-poky
+#EXCLUDE_ARCHS += linux-ppc64e6500
+#EXCLUDE_ARCHS += linux-corei7-poky
 
 ifneq ($(strip $(ASYN_DEP_VERSION)),)
 asyn_VERSION=$(ASYN_DEP_VERSION)
