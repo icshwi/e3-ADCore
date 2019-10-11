@@ -17,7 +17,7 @@
 #-
 # Create a netCDF file saving plugin
 NDFileNetCDFConfigure("FileNetCDF1_$(UNIT)", "$(QSIZE)", 0, "$(PORT)", 0)
-#
+#-
 dbLoadRecords("NDFileNetCDF.template","P=$(PREFIX),R=netCDF1:,PORT=FileNetCDF1_$(UNIT),ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT)")
 #-
 #-

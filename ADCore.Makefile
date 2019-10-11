@@ -329,7 +329,7 @@ TEMPLATES += $(ADCOREDB)/NDCodec.template
 #SCRIPTS   += $(IOCBOOT)/EXAMPLE_commonPlugins.cmd
 
 TEMPLATES += $(wildcard $(ADCOREDB)/*.req)
-
+TEMPLATES += $(wildcard  ../iocsh/*.req)
 SCRIPTS += $(wildcard ../iocsh/*.iocsh)
 
 
