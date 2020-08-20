@@ -1,3 +1,7 @@
+# Deprecation notice
+
+2020-08-20: This remote has been deprecated. Moved to https://gitlab.esss.lu.se/e3/area/e3-ADCore.
+
 # e3-ADCore
 
 This repository is intended as the integration of the EPICS ADCore into ESS e3 environment
